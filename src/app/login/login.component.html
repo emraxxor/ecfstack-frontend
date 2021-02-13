@@ -1,0 +1,19 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+
+    <div *ngIf="invalidCreds" [class.alert-danger]="invalidCreds" class="invalid m-2 p-2">
+      Invalid username or password.
+    </div>
+
+    <form [formGroup]="form" (submit)="login()">
+      <input type="text" id="login" class="fadeIn second" formControlName="username"  name="username" placeholder="Username">
+      <input type="text" id="password" class="fadeIn third" formControlName="password" name="password" placeholder="Password">
+      <input type="submit" class="fadeIn fourth" value="Log In">
+    </form>
+
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>

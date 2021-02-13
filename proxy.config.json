@@ -1,0 +1,21 @@
+
+{
+  "/authenticate": {
+      "target": "http://localhost:8090",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
+  },
+  "/api/*": {
+    "target": "http://localhost:8090",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/users/*": {
+    "target": "http://localhost:8090",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
