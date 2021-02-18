@@ -6,6 +6,10 @@ export interface User {
   firstName: string;
   lastName: string;
   role: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: number;
 }
 
 export enum UserRole {

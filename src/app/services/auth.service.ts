@@ -105,7 +105,7 @@ export class AuthService {
 
   private async setUser(user: AuthResponse): Promise<void> {
       this.currentToken = user?.token;
-      const userInfo = await this.httpClient.post<AuthResponse>('/api/user/info', {}).toPromise();
+      const userInfo = await this.httpClient.get<AuthResponse>('/api/user/info', {}).toPromise();
       user = {...user, ...userInfo}
       sessionStorage.setItem(DefaultConfiguration.TOKEN_STORAGE_KEY, user.token);
       sessionStorage.setItem(DefaultConfiguration.USER_STORAGE_KEY, JSON.stringify(user));

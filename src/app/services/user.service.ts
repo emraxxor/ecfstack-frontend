@@ -1,11 +1,11 @@
 import { StatusResponse } from './../data/status.response';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { User } from './../data/user';
 import { Observable, of } from 'rxjs';
-import {  Injectable, OnInit } from "@angular/core";
-import { catchError } from 'rxjs/operators';
+import { Injectable, OnInit } from "@angular/core";
+import { catchError, map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UserService  {
 
   constructor(private http: HttpClient) { }
@@ -13,23 +13,26 @@ export class UserService  {
   async exists(name: string): Promise<boolean> {
     const res = await this
                 .http
-                .head(`/users/${name}`)
+                .head(`/users/${name}`, {observe: 'response'})
                 .pipe(
-                  catchError( error => {
-                    if ( !(error.error instanceof ErrorEvent)) {
-                     if (error.status === 404) {
-                        return of(true);
-                      }
-                    }
-                    return of(false);
-                  }))
-                  .toPromise();
+                  map( e => e.status === 200),
+                  catchError(error => of(false))
+                )
+                .toPromise();
 
-    return res === null ? true : false;
+    return res;
   }
 
-  create(data: User): Observable<StatusResponse> {
-      return this.http.post<StatusResponse>(`/users`, data);
+  info(): Observable<User> {
+      return this.http.get<User>(`/api/user/info`);
+  }
+
+  create(data: User): Observable<StatusResponse<any>> {
+      return this.http.post<StatusResponse<any>>(`/users`, data);
+  }
+
+  update(user: User): Observable<StatusResponse<User>> {
+    return this.http.put<StatusResponse<User>>(`/api/user`, user);
   }
 
 }

@@ -1,1 +1,89 @@
-<p>profile works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-10"><h1>User name</h1></div>
+    <div class="col-sm-2"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+
+          <div class="text-center">
+            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+            <h6>Upload a different photo...</h6>
+            <input type="file" class="text-center center-block file-upload">
+          </div>
+
+    </div>
+
+    <div class="col-sm-9">
+      <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+          <a class="nav-link active" (click)="changePage(ProfilePage.SETTINGS)">Settings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="changePage(ProfilePage.PASSWORD)">Password</a>
+        </li>
+      </ul>
+
+        <div class="tab-content">
+          <div *ngIf="page === ProfilePage.SETTINGS" [class.active]="page === ProfilePage.SETTINGS" class="tab-pane" id="settings">
+
+            <div *ngIf="profileUpdated; else profileUpdateElse" class="alert alert-primary" role="alert">
+              Profile is updated successfully!
+            </div>
+            <ng-template #profileUpdateElse>
+              <ng-container *ngIf="mForm.valid">This email is already in use.</ng-container>
+            </ng-template>
+
+
+            <form [formGroup]="mForm" (ngSubmit)="onSubmit()">
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="userMail">Email</label>
+                  <input formControlName="userMail" type="email" class="form-control" id="userMail" placeholder="Email">
+                </div>
+             </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="firstName">First Name:</label>
+                  <input formControlName="firstName" type="text" class="form-control" id="firstName" placeholder="First Name">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="lastName">Last Name:</label>
+                  <input formControlName="lastName" type="text" class="form-control" id="lastName" placeholder="Last Name">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input formControlName="address" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputCity">City</label>
+                  <input formControlName="city" type="text" class="form-control" id="inputCity">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputState">State</label>
+                  <input type="text" formControlName="city" id="inputState" class="form-control"/>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="inputZip">Zip</label>
+                  <input formControlName="zip" type="text" class="form-control" id="inputZip">
+                </div>
+              </div>
+
+
+              <button [disabled]="!mForm.valid"  type="submit" class="btn btn-primary">Save</button>
+            </form>
+
+           </div>
+           <div *ngIf="page === ProfilePage.PASSWORD" [class.active]="page === ProfilePage.PASSWORD" class="tab-pane" id="settings">
+
+            </div>
+
+
+            </div>
+        </div>
+
+      </div>
+  </div>
