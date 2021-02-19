@@ -51,9 +51,7 @@ export class ServerAuthStorageService extends AuthenticationStorageService {
   }
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: 'root'})
 export class AuthService {
 
   private currentToken: any = null;

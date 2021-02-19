@@ -1,7 +1,8 @@
+import { FileData } from './../type/file.data';
 import { StatusResponse } from './../data/status.response';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { User } from './../data/user';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { Injectable, OnInit } from "@angular/core";
 import { catchError, map } from 'rxjs/operators';
 
@@ -25,6 +26,14 @@ export class UserService  {
 
   info(): Observable<User> {
       return this.http.get<User>(`/api/user/info`);
+  }
+
+  image(): Observable<StatusResponse<FileData>>  {
+      return this.http.get<StatusResponse<FileData>>(`/api/user/image`);
+  }
+
+  updateImage(  data: FileData ): Observable<StatusResponse<any>> {
+      return this.http.put<StatusResponse<any>>(`/api/user/image`, data);
   }
 
   create(data: User): Observable<StatusResponse<any>> {

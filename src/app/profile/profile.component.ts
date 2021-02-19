@@ -1,3 +1,4 @@
+import { ElementRef } from '@angular/core';
 import { User } from './../data/user';
 import { StatusCode, StatusResponse } from './../data/status.response';
 import { AuthService } from './../services/auth.service';
@@ -6,7 +7,7 @@ import { UserFormComponent } from './../form/user.form.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { UserService } from './../services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -14,6 +15,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent extends UserFormComponent implements OnInit {
+
+  @ViewChild('profileImage', { static: true }) profileImage!: ElementRef;
 
   mForm: FormGroup = this.fb.group({
     userMail: ['', [Validators.required, Validators.email]],
@@ -53,6 +56,16 @@ export class ProfileComponent extends UserFormComponent implements OnInit {
           zip: e.zip
         })
       );
+
+
+      this.userService.image().subscribe(
+          res => {
+            if ( res.code === StatusCode.OK ) {
+                const image = this.profileImage.nativeElement as HTMLImageElement;
+                image.src = `data:image/png;base64,${res.object.data}`;
+            }
+        }
+      );
   }
 
   onSubmit(): void {
@@ -65,6 +78,26 @@ export class ProfileComponent extends UserFormComponent implements OnInit {
     }
   }
 
+
+  handleFileInput(e: any): void {
+    this.userService.updateImage(e)
+     .subscribe(
+       res => {
+          if ( res.code === StatusCode.OK ) {
+              this.userService.image().subscribe(
+                res => {
+                    if ( res.code === StatusCode.OK ) {
+                        const image = this.profileImage.nativeElement as HTMLImageElement;
+                        image.src = `data:image/png;base64,${res.object.data}`;
+                    }
+                }
+              );
+          }
+       },
+       err => {}
+     );
+
+  }
 
   changePage(e: ProfilePage): void {
     this.page = e;

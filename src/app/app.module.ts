@@ -1,3 +1,5 @@
+import { InputBackgroundDirective } from './input/input.background';
+import { InputFileComponent } from './component/ui/input.file.component';
 import { DialogComponent } from './component/ui/dialog.component';
 import { PlaceholderDirective } from './component/ui/placeholder.directive';
 import { UserService } from './services/user.service';
@@ -24,7 +26,8 @@ import { RegistrationComponent } from './registration/registration.component';
     LoginComponent,
     RegistrationComponent,
     DialogComponent,
-    PlaceholderDirective
+    PlaceholderDirective,
+    InputFileComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

@@ -29,7 +29,6 @@ export class DialogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit()	{
-    console.log('VIEW INIT');
   }
 
 
