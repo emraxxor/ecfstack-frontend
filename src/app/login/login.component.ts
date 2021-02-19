@@ -1,7 +1,10 @@
+import { PlaceholderDirective } from '../component/ui/placeholder.directive';
+import { DialogComponent } from './../component/ui/dialog.component';
 import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +13,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
+  @ViewChild(PlaceholderDirective, { static: false }) dialog!: PlaceholderDirective;
+
+  private closeSubscription!: Subscription;
+
   form: FormGroup = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
@@ -17,7 +24,12 @@ export class LoginComponent implements OnInit {
 
   invalidCreds = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService) { }
+  constructor(
+        private router: Router,
+        private fb: FormBuilder,
+        private authService: AuthService,
+        private componentFactoryResolver: ComponentFactoryResolver
+        ) { }
 
   ngOnInit(): void {
     if ( this.authService.isLoggedIn ) {
@@ -36,16 +48,32 @@ export class LoginComponent implements OnInit {
 
   async login(): Promise<void> {
     if (this.form.valid) {
-      const res = this.authService.login(this.form.value);
-      res.then(r => {
+        try {
+        const res = await this.authService.login(this.form.value);
         this.router.navigate(['/profile']);
-      });
-
-      res.catch(err => {
+      } catch (e: any) {
         this.invalidCreds = true;
-      });
+        this.showErrorAlert('Invalid username or password', 'Invalid username or password.');
+      }
 
     }
+  }
+
+  private showErrorAlert(title: string, message: string): void {
+    const dialogFactory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);
+
+    const containerRef = this.dialog.viewContainerRef;
+    containerRef.clear();
+
+    const componentRef = containerRef.createComponent(dialogFactory);
+
+    componentRef.instance.title = title;
+    componentRef.instance.body = message;
+
+    this.closeSubscription = componentRef.instance.close.subscribe(() => {
+      this.closeSubscription.unsubscribe();
+      containerRef.clear();
+    });
   }
 
 }

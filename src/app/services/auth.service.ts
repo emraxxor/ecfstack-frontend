@@ -1,3 +1,4 @@
+import { catchError, map } from 'rxjs/operators';
 import { DefaultConfiguration } from './../config/index';
 import { User, UserRole } from './../data/user';
 import { HttpClient } from '@angular/common/http';
@@ -87,11 +88,11 @@ export class AuthService {
   constructor(private httpClient: HttpClient, private authStorageService: AuthenticationStorageService) {}
 
   async login(req: AuthRequest): Promise<any> {
-    return new Promise( (resolve, reject) => {
-       const user =  this.httpClient.post<AuthResponse>('/authenticate', req).toPromise();
-       user.then( r => { this.setUser(r); resolve(r); }  );
-       user.catch( err => reject(err) );
-    });
+      const data = await this.httpClient.post<AuthResponse>('/authenticate', req).toPromise();
+      if ( data ) {
+        this.setUser(data);
+      }
+      return data;
   }
 
   logout(): void {

@@ -1,3 +1,5 @@
+import { DialogComponent } from './component/ui/dialog.component';
+import { PlaceholderDirective } from './component/ui/placeholder.directive';
 import { UserService } from './services/user.service';
 import { AuthInterceptor } from './core/auth.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,6 +23,8 @@ import { RegistrationComponent } from './registration/registration.component';
     ProfileComponent,
     LoginComponent,
     RegistrationComponent,
+    DialogComponent,
+    PlaceholderDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -31,8 +35,15 @@ import { RegistrationComponent } from './registration/registration.component';
     HttpClientModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: AuthenticationStorageService, useClass: BrowserAuthStorageService },
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true
+    },
+    {
+      provide: AuthenticationStorageService,
+      useClass: BrowserAuthStorageService
+    },
     UserService
   ],
   bootstrap: [AppComponent]
