@@ -1,21 +1,24 @@
-import { InputBackgroundDirective } from './input/input.background';
-import { InputFileComponent } from './component/ui/input.file.component';
-import { DialogComponent } from './component/ui/dialog.component';
-import { PlaceholderDirective } from './component/ui/placeholder.directive';
-import { UserService } from './services/user.service';
-import { AuthInterceptor } from './core/auth.interceptor';
+import { SharedModule } from './shared/shared.module';
+import { environment } from './../environments/environment.prod';
+import { AlbumEffects } from './album/store/album-list.effects';
+import { CoreModule } from './core.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './header/header.component';
-import { AuthenticationStorageService, BrowserAuthStorageService } from './services/auth.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration/registration.component';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from './store/app.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+
 
 
 @NgModule({
@@ -24,10 +27,7 @@ import { RegistrationComponent } from './registration/registration.component';
     HeaderComponent,
     ProfileComponent,
     LoginComponent,
-    RegistrationComponent,
-    DialogComponent,
-    PlaceholderDirective,
-    InputFileComponent
+    RegistrationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -35,19 +35,13 @@ import { RegistrationComponent } from './registration/registration.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
-  ],
-  providers: [
-    {
-        provide: HTTP_INTERCEPTORS,
-        useClass: AuthInterceptor,
-        multi: true
-    },
-    {
-      provide: AuthenticationStorageService,
-      useClass: BrowserAuthStorageService
-    },
-    UserService
+    HttpClientModule,
+    CoreModule,
+    SharedModule,
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot([AlbumEffects ]),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    StoreRouterConnectingModule.forRoot(),
   ],
   bootstrap: [AppComponent]
 })

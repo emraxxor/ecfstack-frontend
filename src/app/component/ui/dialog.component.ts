@@ -10,7 +10,7 @@ import { NgbModalWindow } from '@ng-bootstrap/ng-bootstrap/modal/modal-window';
   selector: 'app-dialog-component',
   templateUrl: './dialog.component.html',
 })
-export class DialogComponent implements OnInit, AfterViewInit {
+export class DialogComponent implements OnInit {
 
   @Input() title = 'Dialog';
   @Input() body = '';
@@ -27,10 +27,6 @@ export class DialogComponent implements OnInit, AfterViewInit {
   ) {
 
   }
-
-  ngAfterViewInit()	{
-  }
-
 
   ngOnInit(): void {
     this.modal.open(this.content, {ariaLabelledBy: this.title});

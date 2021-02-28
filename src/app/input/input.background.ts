@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Renderer2 , OnInit, HostListener, HostBinding, Input} from "@angular/core";
 
 @Directive({
-    selector: '[inputbackground]'
+    selector: '[appInputBackground]'
 })
 export class InputBackgroundDirective implements OnInit {
 
@@ -14,11 +14,11 @@ export class InputBackgroundDirective implements OnInit {
 
   ngOnInit(): void {}
 
-  @HostListener('mouseenter') mouseover(e: Event) {
+  @HostListener('mouseenter') mouseover(e: Event): void {
     this.backgroundColor = this.highlightcolor;
   }
 
-  @HostListener('mouseleave') mouseleave(e: Event) {
+  @HostListener('mouseleave') mouseleave(e: Event): void {
     this.backgroundColor = this.defaultColor;
   }
 }

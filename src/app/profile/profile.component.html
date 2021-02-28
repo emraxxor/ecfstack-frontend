@@ -6,11 +6,11 @@
   <div class="row">
     <div class="col-sm-3">
 
-          <div class="text-center">
-            <img #profileImage src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
-            <h6>Upload a different photo...</h6>
-            <app-input-file-component [accept]="'.jpg, .jpeg, .png'" (data)="handleFileInput($event)" ></app-input-file-component>
-          </div>
+        <div class="text-center">
+          <app-image-component #profileImage [subject]="profileImageSubject" default="/assets/profile/avatar_2x.png" imgclass="avatar img-circle img-thumbnail" alt="avatar"></app-image-component>
+          <h6>Upload a different photo...</h6>
+          <app-input-file-component [accept]="'.jpg, .jpeg, .png'" (data)="handleFileInput($event)" ></app-input-file-component>
+        </div>
 
     </div>
 
@@ -31,7 +31,7 @@
               Profile is updated successfully!
             </div>
             <ng-template #profileUpdateElse>
-              <ng-container *ngIf="mForm.valid">This email is already in use.</ng-container>
+              <ng-container *ngIf="mForm.valid && profileFormValidated">This email is already in use.</ng-container>
             </ng-template>
 
 

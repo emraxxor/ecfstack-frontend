@@ -1,4 +1,5 @@
-import { ElementRef } from '@angular/core';
+import { FileData } from './../type/file.data';
+import { Subject } from 'rxjs';
 import { User } from './../data/user';
 import { StatusCode, StatusResponse } from './../data/status.response';
 import { AuthService } from './../services/auth.service';
@@ -8,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { UserService } from './../services/user.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ImageComponent } from '../component/ui/image.component';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +18,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class ProfileComponent extends UserFormComponent implements OnInit {
 
-  @ViewChild('profileImage', { static: true }) profileImage!: ElementRef;
+  @ViewChild('profileImage', { static: true }) profileImage!: ImageComponent;
+
 
   mForm: FormGroup = this.fb.group({
     userMail: ['', [Validators.required, Validators.email]],
@@ -30,9 +33,9 @@ export class ProfileComponent extends UserFormComponent implements OnInit {
 
   page = ProfilePage.SETTINGS;
   profileUpdated = false;
-
+  profileFormValidated = false;
   ProfilePage = ProfilePage;
-
+  profileImageSubject = new Subject<FileData>();
 
   constructor(
     protected router: Router,
@@ -57,15 +60,14 @@ export class ProfileComponent extends UserFormComponent implements OnInit {
         })
       );
 
-
       this.userService.image().subscribe(
-          res => {
-            if ( res.code === StatusCode.OK ) {
-                const image = this.profileImage.nativeElement as HTMLImageElement;
-                image.src = `data:image/png;base64,${res.object.data}`;
-            }
+        res => {
+          if ( res.code === StatusCode.OK ) {
+            this.profileImageSubject.next(res.object);
+          }
         }
       );
+
   }
 
   onSubmit(): void {
@@ -73,7 +75,8 @@ export class ProfileComponent extends UserFormComponent implements OnInit {
         this.userService.update(this.mForm.getRawValue())
             .subscribe(
                 (e: StatusResponse<User>) => this.profileUpdated = e.code === StatusCode.OK,
-                (error: any) => this.profileUpdated = false
+                (error: any) => this.profileUpdated = false,
+                () => this.profileFormValidated = true
             );
     }
   }
@@ -87,8 +90,7 @@ export class ProfileComponent extends UserFormComponent implements OnInit {
               this.userService.image().subscribe(
                 res => {
                     if ( res.code === StatusCode.OK ) {
-                        const image = this.profileImage.nativeElement as HTMLImageElement;
-                        image.src = `data:image/png;base64,${res.object.data}`;
+                      this.profileImageSubject.next(res.object);
                     }
                 }
               );
