@@ -1,5 +1,7 @@
+import { AppState } from './../../store/app.reducer';
 import * as actions from './album-list.actions';
-import { Album } from './../../data/album';
+import { Album } from '../data/album';
+import { createSelector } from '@ngrx/store';
 
 export interface State {
   albums: Album[];
@@ -8,6 +10,16 @@ export interface State {
 const initialState: State = {
   albums: []
 };
+
+
+export const selectAlbums = (state: AppState) => state.albumList;
+
+
+export const selectAlbumCollection = createSelector(
+  selectAlbums,
+  (state: State) => state.albums
+);
+
 
 export function albumListReducer(state: State | undefined = initialState, action: actions.AlbumListActions): State {
   switch (action.type) {
@@ -23,7 +35,7 @@ export function albumListReducer(state: State | undefined = initialState, action
         updatedAlbums[state.albums.findIndex(e => e.id === album.id)] = {...album, ...action.payload};
         return {...state, albums: updatedAlbums};
       case actions.DELETE_ALBUM:
-        return {...state, albums: state.albums.filter(e => e.id !== action.payload.id)};
+        return {...state, albums: state.albums.filter(e => e.id !== action.payload.id )};
       default:
         return state;
   }

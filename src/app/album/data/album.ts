@@ -4,6 +4,8 @@
 export interface Album {
 
   id: number;
-  name: string;
+  albumName: string;
+  description: string;
+  albumType: string;
 
 }
