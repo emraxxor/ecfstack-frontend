@@ -6,9 +6,9 @@
   </div>
 
   <div class="col-xs-12 col-sm-12 col-md-12">
-
+  <app-dialog-component *ngIf="error" title="Error" [body]="error.message"></app-dialog-component>
+  <app-dialog-component *ngIf="response" title="Album is created successfully" body="Album is created successfully"></app-dialog-component>
   <form [formGroup]="mForm" (ngSubmit)="onSubmit($event)">
-
     <div class="row">
         <div class="col-sm-6">
           <label for="albumName">Album name:</label>
@@ -52,7 +52,5 @@
     </div>
 
 </form>
-
 </div>
-
 </div>

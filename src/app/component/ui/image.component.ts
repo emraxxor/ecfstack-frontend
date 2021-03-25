@@ -7,7 +7,7 @@ import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input } from '@
 
 @Component({
   selector: 'app-image-component',
-  templateUrl: './image.component.html',
+  template: `<img #img  [src]="default" [class]="imgclass">`,
 })
 export class ImageComponent implements OnInit {
 

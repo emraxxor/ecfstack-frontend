@@ -4,6 +4,7 @@ import { InputFileComponent } from './../component/ui/input.file.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageComponent } from '../component/ui/image.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,10 @@ import { ImageComponent } from '../component/ui/image.component';
     PlaceholderDirective,
     DialogComponent
   ],
-  imports: [CommonModule],
+  imports: [
+    HttpClientModule,
+    CommonModule
+  ],
   exports: [
     ImageComponent,
     InputFileComponent,

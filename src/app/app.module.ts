@@ -1,8 +1,9 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from './shared/shared.module';
 import { environment } from './../environments/environment.prod';
 import { AlbumEffects } from './album/store/album-list.effects';
 import { CoreModule } from './core.module';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,7 +21,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +30,8 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     RegistrationComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,

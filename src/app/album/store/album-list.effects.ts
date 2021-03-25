@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 import { Actions,  ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { HttpClient } from '@angular/common/http';
-import { switchMap, map, withLatestFrom, tap, exhaustMap } from 'rxjs/operators';
+import { switchMap, map,  tap, exhaustMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import * as AlbumActions from './album-list.actions';
 import * as fromApp from '../../store/app.reducer';
@@ -21,13 +22,26 @@ export class AlbumEffects {
         return this.actions$.pipe(
             ofType(AlbumActions.FETCH_ALBUMS),
             switchMap(() => {
-              return this.http.get<Album[]>('/#todo');
+              return this.http.get<StatusResponse<Album[]>>('/api/album');
             }),
-            map(albums => {
-              return new AlbumActions.SetAlbums(albums);
+            map(response => {
+              return new AlbumActions.SetAlbums(response.object);
             })
       );
   });
+
+
+  fetchAlbum$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(AlbumActions.FETCH_ALBUM_BY_ID),
+        switchMap((action: AlbumActions.FetchAlbum) => {
+          return this.http.get<StatusResponse<Album>>(`/api/album/${action.id}`);
+        }),
+        map(response => {
+          return new AlbumActions.SetAlbum(response.object);
+        })
+  );
+});
 
 
   storeAlbum$ = createEffect(
@@ -47,11 +61,12 @@ export class AlbumEffects {
   createAlbum$ = createEffect(
     () =>  this.actions$.pipe(
             ofType(AlbumActions.CREATE_ALBUM),
-            exhaustMap( (action: AlbumActions.CreateAlbum) => {
-              return this.albumService.create(action.payload);
-            })
-        ),
-        { dispatch: false }
+            switchMap( (action: AlbumActions.CreateAlbum) => {
+                  return this.http.post<StatusResponse<Album>>(`/api/album`, action.payload);
+            }),
+            map(res => new AlbumActions.StatusAlbumCreate(res) ),
+            catchError(error => of(new AlbumActions.ErrorAlbum(error) )  )
+        )
   );
 
 

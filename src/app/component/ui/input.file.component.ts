@@ -4,7 +4,7 @@ import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input } from '@
 
 @Component({
   selector: 'app-input-file-component',
-  templateUrl: './input.file.component.html',
+  template: `<input #input type="file" (change)="handleFileInput($event)" accept="{{accept}}" class="{{class}}">`
 })
 export class InputFileComponent implements OnInit {
 
@@ -24,6 +24,6 @@ export class InputFileComponent implements OnInit {
       this.data.emit({ data: btoa(target.result)});
     };
     reader.readAsBinaryString(ie?.files?.item(0));
-}
+  }
 
 }

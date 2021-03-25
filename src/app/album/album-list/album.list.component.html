@@ -1,0 +1,64 @@
+<div class="row" *ngIf="album">
+
+
+  <div class="col-sm-12">
+    <h1>Album</h1>
+  </div>
+
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        Upload a new picture into: {{album.albumName}}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">   Upload a new picture into: {{album.albumName}}</h5>
+
+        <form [formGroup]="mForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="imageName">Image name</label>
+              <input formControlName="imageName" type="text" class="form-control" id="imageName" placeholder="Name of the image">
+            </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="imageDescription">Description</label>
+            <textarea formControlName="imageDescription" class="form-control" id="imageDescription" placeholder="Description"></textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="imageDescription">Image:</label>
+            <app-input-file-component [accept]="'.jpg, .jpeg, .png'" (data)="handleFileInput($event)" ></app-input-file-component>
+          </div>
+        </div>
+
+        <button [disabled]="!mForm.valid"  type="submit" class="btn btn-primary">Create</button>
+
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="mt-4" *ngIf="images.length > 0">
+    <ngx-masonry [options]="masonryOptions" style="width: 90vw"  (itemsLoaded)="itemsLoaded()" >
+      <div ngxMasonryItem *ngFor="let item of images" style="width:200px;" class="mt-4">
+        <div class="card">
+          <app-album-picture-component style="text-align: center;" [id]="item.id" default="/assets/profile/avatar_2x.png" imgclass="avatar img-circle img-thumbnail" alt="avatar"></app-album-picture-component>
+
+          <div class="card-body">
+            <h5 class="card-title">{{item.name}}</h5>
+            <p class="card-text">{{item.description}}</p>
+          </div>
+        </div>
+      </div>
+    </ngx-masonry>
+  </div>
+
+</div>
