@@ -1,3 +1,4 @@
+import { StatusResponse } from './../../data/status.response';
 import { HttpClient } from '@angular/common/http';
 import { FileData } from './../../type/file.data';
 import { ElementRef, ViewChild } from '@angular/core';

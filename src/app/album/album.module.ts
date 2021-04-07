@@ -1,3 +1,6 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DefaultDataTableComponent } from './../component/table/default.data.table';
+import { AlbumManagerComponent } from './album-manager/album.manager.component';
 import { AlbumImageComponent } from './album-picture/album.picture.component';
 import { ImageService } from './services/image.service';
 import { AlbumListComponent } from './album-list/album.list.component';
@@ -19,15 +22,18 @@ import { NgxMasonryModule } from 'ngx-masonry';
   declarations: [
     AlbumComponent,
     AlbumFormComponent,
+    AlbumManagerComponent,
     AlbumListComponent,
-    AlbumImageComponent
+    AlbumImageComponent,
+    DefaultDataTableComponent
   ],
   imports: [
     RouterModule,
     ReactiveFormsModule,
     AlbumRoutingModule,
     SharedModule,
-    NgxMasonryModule
+    NgxMasonryModule,
+    NgbModule
   ],
   providers: [AlbumService, ImageService]
 })

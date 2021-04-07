@@ -1,3 +1,4 @@
+import { AlbumManagerComponent } from './album-manager/album.manager.component';
 import { AlbumResolver } from './resolver/album.resolver';
 import { AlbumListComponent } from './album-list/album.list.component';
 import { AlbumFormComponent } from './form/album.form.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'create', component: AlbumFormComponent },
+      { path: 'list', component: AlbumManagerComponent },
       {
         path: ':id',
         component: AlbumListComponent

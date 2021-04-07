@@ -12,6 +12,8 @@ import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
 
 
 /**
+ * AlbumListComponent is suitable for creating and displaying albums.
+ *
  * @author Attila Barna
  */
 @Component({
@@ -80,7 +82,11 @@ export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout( () => {  this.masonry.layout(); }, 300 );
+    setTimeout( () => {
+      if ( this.masonry ) {
+        this.masonry.layout();
+      }
+    }, 300 );
   }
 
   ngOnDestroy(): void {
