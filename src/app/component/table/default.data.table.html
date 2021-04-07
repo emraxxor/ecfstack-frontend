@@ -1,0 +1,16 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th *ngFor="let column of datatable.displayedColumns" scope="col">{{ datatable.displayedHeaders[column] }}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of datatable.dataSource.data">
+    <td *ngFor="let column of datatable.displayedColumns" (click)="clickOnItem(row,column,$event)"  >{{row.columns[column]}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="pageChange()"></ngb-pagination>
+</div>
