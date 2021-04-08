@@ -1,3 +1,8 @@
+import { DataRowDirective } from './../component/table/data/row.directive';
+import { ContentBasedDataTableComponent } from './../component/table/content.based.data.table';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DefaultDataTableComponent } from './../component/table/default.data.table';
 import { DialogComponent } from './../component/ui/dialog.component';
 import { PlaceholderDirective } from './../component/ui/placeholder.directive';
 import { InputFileComponent } from './../component/ui/input.file.component';
@@ -11,18 +16,29 @@ import { HttpClientModule } from '@angular/common/http';
     ImageComponent,
     InputFileComponent,
     PlaceholderDirective,
-    DialogComponent
+    DataRowDirective,
+    DialogComponent,
+    DefaultDataTableComponent,
+    ContentBasedDataTableComponent
   ],
   imports: [
+    NgbModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    NgxMasonryModule,
   ],
   exports: [
+    NgbModule,
+    HttpClientModule,
     ImageComponent,
     InputFileComponent,
     PlaceholderDirective,
+    DataRowDirective,
     DialogComponent,
-    CommonModule
+    CommonModule,
+    DefaultDataTableComponent,
+    ContentBasedDataTableComponent,
+    NgxMasonryModule
   ],
   entryComponents: [],
   providers: []
