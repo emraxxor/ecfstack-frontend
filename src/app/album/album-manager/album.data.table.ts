@@ -30,6 +30,7 @@ export class AlbumDataTable extends DataTable<AlbumType> {
       const data = new Array<DataSourceRow<AlbumType>>();
       albums.object.forEach( e => data.push( {columns: e}) );
       this.dataSource.update(data);
+      this.dataSubject.next(this.dataSource);
     } catch (e) {
       console.error(e);
     }
@@ -41,7 +42,7 @@ export class AlbumDataTable extends DataTable<AlbumType> {
      const albums = await this.http.get<StatusResponse<Array<AlbumType>>>(`/api/album/ordered?page=0`).toPromise();
      const data = new Array<DataSourceRow<AlbumType>>();
      albums.object.forEach( e => data.push( {columns: e}) );
-     this.dataSource.init( data, (total.object as number)  , Math.ceil( (total.object as number) / 20) );
+     this.dataSource.init( data, (total.object as number)  , 20 );
      this.dataSubject.next(this.dataSource);
     } catch (e) {
       console.error(e);

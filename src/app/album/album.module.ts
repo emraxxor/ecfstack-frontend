@@ -1,5 +1,3 @@
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DefaultDataTableComponent } from './../component/table/default.data.table';
 import { AlbumManagerComponent } from './album-manager/album.manager.component';
 import { AlbumImageComponent } from './album-picture/album.picture.component';
 import { ImageService } from './services/image.service';
@@ -12,7 +10,6 @@ import { AlbumComponent } from './album.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxMasonryModule } from 'ngx-masonry';
 
 
 /**
@@ -24,16 +21,13 @@ import { NgxMasonryModule } from 'ngx-masonry';
     AlbumFormComponent,
     AlbumManagerComponent,
     AlbumListComponent,
-    AlbumImageComponent,
-    DefaultDataTableComponent
+    AlbumImageComponent
   ],
   imports: [
     RouterModule,
     ReactiveFormsModule,
     AlbumRoutingModule,
     SharedModule,
-    NgxMasonryModule,
-    NgbModule
   ],
   providers: [AlbumService, ImageService]
 })

@@ -1,5 +1,5 @@
+import { UserModule } from './user/user.module';
 import { AlbumModule } from './album/album.module';
-import { AlbumFormComponent } from './album/form/album.form.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guard/auth.guard';
@@ -16,6 +16,10 @@ const routes: Routes = [
   {
     path: 'album',
     loadChildren: () => AlbumModule
+  },
+  {
+    path: 'user',
+    loadChildren: () => UserModule
   },
   {
     path: 'registration',
