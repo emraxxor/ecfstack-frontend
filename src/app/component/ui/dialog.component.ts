@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { Input, Output, Component, EventEmitter, AfterViewInit, ViewChild } from '@angular/core';
+import { Input, Output, Component, EventEmitter, ViewChild } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalWindow } from '@ng-bootstrap/ng-bootstrap/modal/modal-window';
@@ -16,6 +16,7 @@ export class DialogComponent implements OnInit {
   @Input() body = '';
   @Input() confirm = false;
 
+  // tslint:disable-next-line:no-output-native
   @Output() close = new EventEmitter<void>();
   @Output() accept = new EventEmitter<void>();
 

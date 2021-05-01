@@ -1,15 +1,24 @@
-import { DataRowDirective } from './../component/table/data/row.directive';
-import { ContentBasedDataTableComponent } from './../component/table/content.based.data.table';
+import { DataRowDirective } from '../component/table/data/row.directive';
+import { ContentBasedDataTableComponent } from '../component/table/content.based.data.table';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DefaultDataTableComponent } from './../component/table/default.data.table';
-import { DialogComponent } from './../component/ui/dialog.component';
-import { PlaceholderDirective } from './../component/ui/placeholder.directive';
-import { InputFileComponent } from './../component/ui/input.file.component';
+import { DefaultDataTableComponent } from '../component/table/default.data.table';
+import { DialogComponent } from '../component/ui/dialog.component';
+import { PlaceholderDirective } from '../component/ui/placeholder.directive';
+import { InputFileComponent } from '../component/ui/input.file.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageComponent } from '../component/ui/image.component';
 import { HttpClientModule } from '@angular/common/http';
+import {InputBackgroundDirective} from '../input/input.background';
+import {LoadingComponent} from './ui/loading.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {AlbumImageComponent} from '../album/album-picture/album.picture.component';
+import {PhotoDialogWindowComponent} from '../photo/photo-list/photo.dialog.window.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -19,13 +28,22 @@ import { HttpClientModule } from '@angular/common/http';
     DataRowDirective,
     DialogComponent,
     DefaultDataTableComponent,
-    ContentBasedDataTableComponent
+    ContentBasedDataTableComponent,
+    InputBackgroundDirective,
+    LoadingComponent,
+    AlbumImageComponent,
+    PhotoDialogWindowComponent,
   ],
   imports: [
     NgbModule,
     HttpClientModule,
     CommonModule,
     NgxMasonryModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatButtonModule
   ],
   exports: [
     NgbModule,
@@ -38,7 +56,10 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     DefaultDataTableComponent,
     ContentBasedDataTableComponent,
-    NgxMasonryModule
+    NgxMasonryModule,
+    LoadingComponent,
+    AlbumImageComponent,
+    PhotoDialogWindowComponent
   ],
   entryComponents: [],
   providers: []

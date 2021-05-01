@@ -1,12 +1,12 @@
-import { Directive, ElementRef, Renderer2 , OnInit, HostListener, HostBinding, Input} from "@angular/core";
+import { Directive, ElementRef, Renderer2 , OnInit, HostListener, HostBinding, Input} from '@angular/core';
 
 @Directive({
     selector: '[appInputBackground]'
 })
 export class InputBackgroundDirective implements OnInit {
 
-  @Input() defaultColor: string = 'transparent';
-  @Input() highlightcolor: string = 'gray';
+  @Input() defaultColor = 'transparent';
+  @Input() highlightcolor = 'gray';
 
   @HostBinding('style.backgroundColor') backgroundColor: string = this.defaultColor;
 

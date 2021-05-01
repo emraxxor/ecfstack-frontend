@@ -1,6 +1,5 @@
-import { catchError, map } from 'rxjs/operators';
-import { DefaultConfiguration } from './../config/index';
-import { User, UserRole } from './../data/user';
+import { DefaultConfiguration } from '../config';
+import { User, UserRole } from '../data/user';
 import { HttpClient } from '@angular/common/http';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { Inject, Injectable } from '@angular/core';
@@ -51,6 +50,9 @@ export class ServerAuthStorageService extends AuthenticationStorageService {
   }
 }
 
+/**
+ * @author Attila Barna
+ */
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
@@ -88,7 +90,7 @@ export class AuthService {
   async login(req: AuthRequest): Promise<any> {
       const data = await this.httpClient.post<AuthResponse>('/authenticate', req).toPromise();
       if ( data ) {
-        this.setUser(data);
+        await this.setUser(data);
       }
       return data;
   }
@@ -105,7 +107,7 @@ export class AuthService {
   private async setUser(user: AuthResponse): Promise<void> {
       this.currentToken = user?.token;
       const userInfo = await this.httpClient.get<AuthResponse>('/api/user/info', {}).toPromise();
-      user = {...user, ...userInfo}
+      user = {...user, ...userInfo};
       sessionStorage.setItem(DefaultConfiguration.TOKEN_STORAGE_KEY, user.token);
       sessionStorage.setItem(DefaultConfiguration.USER_STORAGE_KEY, JSON.stringify(user));
       document.cookie = `${DefaultConfiguration.TOKEN_STORAGE_KEY}=${user.token}`;

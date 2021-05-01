@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { DataSourceRow } from './data.source.row';
-import { Subject, Observable, Subscription } from 'rxjs';
 
 /**
  * @author Attila Barna
@@ -16,7 +14,7 @@ export class DataSource<T> {
     constructor() {
     }
 
-    update(data: Array<DataSourceRow<T>>) {
+    update(data: Array<DataSourceRow<T>>): void {
       this.data = data;
     }
 

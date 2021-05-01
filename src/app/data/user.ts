@@ -12,6 +12,12 @@ export interface User {
   zip: number;
 }
 
+export interface UserPasswordElement {
+  oldPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+}
+
 export enum UserRole {
   Admin = 'ADMIN',
   User = 'USER',

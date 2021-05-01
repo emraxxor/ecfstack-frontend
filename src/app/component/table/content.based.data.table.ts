@@ -4,7 +4,7 @@ import { OnInit, Component, Input,  AfterViewInit, OnChanges, SimpleChanges, OnD
 /**
  * Simple data table component based on bootstrap component
  *
- * @author Attilba Barna
+ * @author Attila Barna
  */
 
 @Component({

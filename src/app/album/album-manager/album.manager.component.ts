@@ -1,6 +1,5 @@
 import { Router, ActivatedRoute } from '@angular/router';
-import { PageEvent } from './../../component/table/event/page.event';
-import { ItemEvent } from './../../component/table/event/item.event';
+import { ItemEvent } from '../../component/table/event/item.event';
 import { HttpClient } from '@angular/common/http';
 import { AlbumDataTable } from './album.data.table';
 import { OnInit, Component } from '@angular/core';
@@ -23,7 +22,7 @@ export class AlbumManagerComponent  implements OnInit {
   }
 
   onItemClicked(e: ItemEvent): void {
-    this.router.navigate(['/album', e.row.columns.id ]);
+    this.router.navigate(['/album', e.row.columns.id]);
   }
 
 

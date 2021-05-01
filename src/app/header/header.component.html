@@ -15,6 +15,10 @@
       </li>
 
       <li *ngIf="loggedIn" class="nav-item">
+        <a  routerLink="/photo/list"  routerLinkActive="active" class="nav-link">Photos</a>
+      </li>
+
+      <li *ngIf="loggedIn" class="nav-item">
         <a  routerLink="/album/create"  routerLinkActive="active" class="nav-link">Album</a>
       </li>
 

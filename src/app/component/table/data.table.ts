@@ -15,7 +15,7 @@ export abstract class DataTable<T>  {
 
   dataSubject = new Subject<DataSource<T>>();
 
-  constructor(protected http: HttpClient) {
+  protected constructor(protected http: HttpClient) {
       this.init();
   }
 
@@ -26,12 +26,12 @@ export abstract class DataTable<T>  {
    *   - pageSize
    *   - displayedColumns
    */
-  abstract init(): Promise<void>;
+  abstract init(): Promise<void> | void;
 
   /**
    * Invoked when the page is going to be changed
    */
-  abstract pageChange(e: PageEvent): Promise<void>;
+  abstract pageChange(e: PageEvent): Promise<void> | void;
 
 
 }

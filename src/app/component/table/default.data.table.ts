@@ -1,7 +1,6 @@
-import { PageEvent } from './event/page.event';
 import { ItemEvent } from './event/item.event';
 import { DataTable } from './data.table';
-import { OnInit, Component, Input, AfterContentInit, Output, EventEmitter } from '@angular/core';
+import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 
 /**
  * Simple data table component based on bootstrap component
@@ -38,7 +37,6 @@ export class DefaultDataTableComponent<T extends DataTable<any>> implements OnIn
        collectionSize: this.collectionSize
      });
   }
-
 
   ngOnInit(): void {
     this.datatable.dataSubject.subscribe( res => {

@@ -1,7 +1,5 @@
 import { UserDataTable } from './user.data.table';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PageEvent } from './../../component/table/event/page.event';
-import { ItemEvent } from './../../component/table/event/item.event';
 import { HttpClient } from '@angular/common/http';
 import { OnInit, Component } from '@angular/core';
 
@@ -22,7 +20,8 @@ export class UserManagerComponent  implements OnInit {
   ngOnInit(): void {
   }
 
-  onItemClicked(e: ItemEvent): void {
+  onItemClicked(row: any, column: any, e: Event): void {
+
   }
 
 

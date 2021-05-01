@@ -1,5 +1,5 @@
-import { State } from './../store/album-list.reducer';
-import { Album } from './../data/album';
+import { State } from '../store/album-list.reducer';
+import { Album } from '../data/album';
 import { Injectable } from '@angular/core';
 import {
   Resolve,
@@ -7,8 +7,8 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Actions, ofType } from '@ngrx/effects';
-import { take, map, switchMap } from 'rxjs/operators';
+import { Actions} from '@ngrx/effects';
+import { map, switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 
 import * as fromApp from '../../store/app.reducer';

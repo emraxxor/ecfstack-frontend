@@ -1,11 +1,11 @@
-import { StatusResponse } from './../../data/status.response';
-import { Album } from './../data/album';
+import { StatusResponse } from '../../data/status.response';
+import { Album } from '../data/album';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OnInit, Component, OnDestroy, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { OnInit, Component, OnDestroy} from '@angular/core';
 import * as fromApp from '../../store/app.reducer';
 import * as AlbumActions from '../store/album-list.actions';
 
@@ -15,9 +15,9 @@ import * as AlbumActions from '../store/album-list.actions';
  */
 @Component({
   selector: 'app-album-create',
-  templateUrl: './album.form.component.html'
+  templateUrl: './create.album.component.html'
 })
-export class AlbumFormComponent  implements OnInit, OnDestroy {
+export class CreateAlbumComponent implements OnInit, OnDestroy {
 
   subscription!: Subscription;
   error !: any | null;

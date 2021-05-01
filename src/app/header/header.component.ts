@@ -1,4 +1,4 @@
-import { AuthService } from './../services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit  {
 
   logout(e: Event): void {
     this.authService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(['/']).then(r => console.log(r)).catch(err => console.error(err));
   }
 
 }

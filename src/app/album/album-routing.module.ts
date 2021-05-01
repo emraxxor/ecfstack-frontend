@@ -1,10 +1,10 @@
 import { AlbumManagerComponent } from './album-manager/album.manager.component';
 import { AlbumListComponent } from './album-list/album.list.component';
-import { AlbumFormComponent } from './form/album.form.component';
-import { AuthGuard } from './../guard/auth.guard';
+import { AuthGuard } from '../guard/auth.guard';
 import { AlbumComponent } from './album.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {CreateAlbumComponent} from './album-create/create.album.component';
 
 
 const routes: Routes = [
@@ -13,7 +13,7 @@ const routes: Routes = [
     component: AlbumComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'create', component: AlbumFormComponent },
+      { path: 'create', component: CreateAlbumComponent },
       { path: 'list', component: AlbumManagerComponent },
       {
         path: ':id',

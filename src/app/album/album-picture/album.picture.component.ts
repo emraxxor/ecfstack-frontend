@@ -1,13 +1,13 @@
-import { StatusResponse } from './../../data/status.response';
+import { StatusResponse } from '../../data/status.response';
 import { HttpClient } from '@angular/common/http';
-import { FileData } from './../../type/file.data';
+import { FileData } from '../../type/file.data';
 import { ElementRef, ViewChild } from '@angular/core';
 import { Component, OnInit, Input } from '@angular/core';
 
 
 @Component({
   selector: 'app-album-picture-component',
-  template: `<img #img  [class]="imgclass" [src]="default">`
+  template: `<img #img  [class]="imgclass" [src]="default" alt="">`
 })
 export class AlbumImageComponent implements OnInit {
 
@@ -20,7 +20,7 @@ export class AlbumImageComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get<StatusResponse<FileData>>(`/api/album/image/${this.id}`)
+    this.http.get<StatusResponse<FileData>>(`/api/photo/image/${this.id}`)
     .subscribe(
       res => {
         const image = this.img.nativeElement as HTMLImageElement;

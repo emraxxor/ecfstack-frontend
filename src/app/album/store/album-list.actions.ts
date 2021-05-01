@@ -1,4 +1,4 @@
-import { StatusResponse } from './../../data/status.response';
+import { StatusResponse } from '../../data/status.response';
 import { Album } from '../data/album';
 import { Action } from '@ngrx/store';
 

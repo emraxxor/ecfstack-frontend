@@ -1,8 +1,8 @@
-import { DataSourceRow } from './../../component/table/data.source.row';
-import { StatusResponse } from './../../data/status.response';
+import { DataSourceRow } from '../../component/table/data.source.row';
+import { StatusResponse } from '../../data/status.response';
 import { HttpClient } from '@angular/common/http';
 import { AlbumType } from './album.type';
-import { DataTable } from './../../component/table/data.table';
+import { DataTable } from '../../component/table/data.table';
 import { PageEvent } from 'src/app/component/table/event/page.event';
 
 export class AlbumDataTable extends DataTable<AlbumType> {
@@ -16,7 +16,6 @@ export class AlbumDataTable extends DataTable<AlbumType> {
      description: 'Description'
   };
 
-
   constructor(protected http: HttpClient) {
       super(http);
   }
@@ -24,11 +23,12 @@ export class AlbumDataTable extends DataTable<AlbumType> {
   async pageChange(e: PageEvent): Promise<void> {
     try {
       const albums = await this.
-                            http
-                            .get<StatusResponse<Array<AlbumType>>>(`/api/album/ordered?page=${ e.page > 0 ? (e.page - 1) : e.page}`)
-                            .toPromise();
+                           http
+                           .get<StatusResponse<Array<AlbumType>>>(`/api/album/ordered?page=${ e.page > 0 ? (e.page - 1) : e.page}`)
+                           .toPromise();
+
       const data = new Array<DataSourceRow<AlbumType>>();
-      albums.object.forEach( e => data.push( {columns: e}) );
+      albums.object.forEach( ex => data.push( {columns: ex}) );
       this.dataSource.update(data);
       this.dataSubject.next(this.dataSource);
     } catch (e) {
@@ -38,14 +38,14 @@ export class AlbumDataTable extends DataTable<AlbumType> {
 
   async init(): Promise<void> {
     try {
-     const total = await this.http.get<StatusResponse<any>>(`/api/album/total`).toPromise();
-     const albums = await this.http.get<StatusResponse<Array<AlbumType>>>(`/api/album/ordered?page=0`).toPromise();
-     const data = new Array<DataSourceRow<AlbumType>>();
-     albums.object.forEach( e => data.push( {columns: e}) );
-     this.dataSource.init( data, (total.object as number)  , 20 );
-     this.dataSubject.next(this.dataSource);
+        const total = await this.http.get<StatusResponse<any>>(`/api/album/total`).toPromise();
+        const albums = await this.http.get<StatusResponse<Array<AlbumType>>>(`/api/album/ordered?page=0`).toPromise();
+        const data = new Array<DataSourceRow<AlbumType>>();
+        albums.object.forEach( e => data.push( {columns: e}) );
+        this.dataSource.init( data, (total.object as number)  , 20 );
+        this.dataSubject.next(this.dataSource);
     } catch (e) {
-      console.error(e);
+        console.error(e);
     }
   }
 }

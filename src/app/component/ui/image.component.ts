@@ -1,13 +1,12 @@
-import { StatusCode, StatusResponse } from './../../data/status.response';
 import { Subject } from 'rxjs';
-import { FileData } from './../../type/file.data';
+import { FileData } from '../../type/file.data';
 import { ElementRef, ViewChild } from '@angular/core';
-import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 
 @Component({
   selector: 'app-image-component',
-  template: `<img #img  [src]="default" [class]="imgclass">`,
+  template: `<img #img  [src]="default" [class]="imgclass" alt="">`,
 })
 export class ImageComponent implements OnInit {
 
@@ -21,7 +20,9 @@ export class ImageComponent implements OnInit {
     this.subject.subscribe(
       res => {
             const image = this.img.nativeElement as HTMLImageElement;
-            image.src = `data:image/png;base64,${res.data}`;
+            if ( res.data ) {
+              image.src = `data:image/png;base64,${res.data}`;
+            }
       }
     );
   }

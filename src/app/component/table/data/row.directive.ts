@@ -1,6 +1,5 @@
-import { DataSource } from './../data.source';
-import { ContentBasedDataTableComponent } from './../content.based.data.table';
-import { Directive, ElementRef, OnInit, Input, ViewContainerRef, AfterContentInit, TemplateRef, OnChanges, SimpleChanges, OnDestroy} from "@angular/core";
+import { ContentBasedDataTableComponent } from '../content.based.data.table';
+import { Directive, ElementRef, OnInit, Input, ViewContainerRef, AfterContentInit, TemplateRef, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
 
 
 /**
@@ -62,7 +61,6 @@ export class DataRowDirective implements OnInit, AfterContentInit, OnChanges, On
       return;
     }
 
-
     this.table.datatable.dataSource.data.forEach( (e: any) => {
         const row: any = {};
 
@@ -73,7 +71,7 @@ export class DataRowDirective implements OnInit, AfterContentInit, OnChanges, On
         rows.push(row);
     });
 
-    rows.forEach( (row: any, index: number) =>  this.viewContainerRef.createEmbeddedView(this.templateRef, { $implicit:row, index  } ) );
+    rows.forEach( (row: any, index: number) =>  this.viewContainerRef.createEmbeddedView(this.templateRef, { $implicit: row, index  } ) );
   }
 
 }

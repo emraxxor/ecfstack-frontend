@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { StatusResponse } from './../data/status.response';
+import { StatusResponse } from '../data/status.response';
 import { Observable } from 'rxjs';
-import { Album } from './../album/data/album';
+import { Album } from '../album/data/album';
 import { Injectable } from '@angular/core';
 
 

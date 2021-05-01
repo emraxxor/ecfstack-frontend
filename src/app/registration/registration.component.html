@@ -2,18 +2,18 @@
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
       <div id="legend">
-        <legend class="">Register</legend>
+        <legend class="">Registration</legend>
       </div>
 
       <div *ngIf="userIsCreatedSuccessfully; else userCreationElse" class="alert alert-primary" role="alert">
            Registration is completed successfully!
       </div>
       <ng-template #userCreationElse>
-        <ng-container *ngIf="mForm.valid && dataIsSent">Username or email is already in use.</ng-container>
+        <ng-container *ngIf="settingsForm.valid && dataIsSent">Username or email is already in use.</ng-container>
       </ng-template>
 
 
-      <form [formGroup]="mForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
         <div id="user-data">
           <div class="form-group">
             <label for="username">Username</label>
@@ -21,7 +21,7 @@
               id="username"
               type="text"
               class="form-control"
-              [class.is-invalid]="invalidUserName || mForm.get('userName')?.touched && !mForm.get('userName')?.valid"
+              [class.is-invalid]="invalidUserName || settingsForm.get('userName')?.touched && !settingsForm.get('userName')?.valid"
               formControlName="userName"
               required>
           </div>
@@ -31,7 +31,7 @@
               id="password"
               type="password"
               class="form-control"
-              [class.is-invalid]="mForm.get('userPassword')?.touched && !mForm.get('userPassword')?.valid"
+              [class.is-invalid]="settingsForm.get('userPassword')?.touched && !settingsForm.get('userPassword')?.valid"
               formControlName="userPassword"
               required>
           </div>
@@ -41,12 +41,12 @@
               id="password_re"
               type="password"
               class="form-control"
-              [class.is-invalid]="mForm.get('userPasswordRE')?.touched && mForm.get('userPasswordRE')!.errors && mForm.get('userPasswordRE')?.errors?.invalid === true"
+              [class.is-invalid]="settingsForm.get('userPasswordRE')?.touched && settingsForm.get('userPasswordRE')!.errors && settingsForm.get('userPasswordRE')?.errors?.invalid === true"
               formControlName="userPasswordRE"
               required>
 
-              <span *ngIf="mForm.get('userPasswordRE')?.touched && mForm.get('userPasswordRE')!.errors" class="help-block">
-              <span *ngIf="mForm.get('userPasswordRE')?.errors?.invalid === true" class="invalid-feedback d-block">The passwords you entered do not match.</span>
+              <span *ngIf="settingsForm.get('userPasswordRE')?.touched && settingsForm.get('userPasswordRE')!.errors" class="help-block">
+              <span *ngIf="settingsForm.get('userPasswordRE')?.errors?.invalid === true" class="invalid-feedback d-block">The passwords you entered do not match.</span>
             </span>
 
           </div>
@@ -55,7 +55,7 @@
             <input
               id="email"
               type="email"
-              [class.is-invalid]="mForm.get('userMail')?.touched && !mForm.get('userMail')?.valid"
+              [class.is-invalid]="settingsForm.get('userMail')?.touched && !settingsForm.get('userMail')?.valid"
               class="form-control"
               formControlName="userMail"
               required>
@@ -67,7 +67,7 @@
               id="firstname"
               type="text"
               class="form-control"
-              [class.is-invalid]="mForm.get('firstName')?.touched && !mForm.get('firstName')?.valid"
+              [class.is-invalid]="settingsForm.get('firstName')?.touched && !settingsForm.get('firstName')?.valid"
               formControlName="firstName"
               required>
           </div>
@@ -78,7 +78,7 @@
               id="lastname"
               type="text"
               class="form-control"
-              [class.is-invalid]="mForm.get('lastName')?.touched && !mForm.get('lastName')?.valid"
+              [class.is-invalid]="settingsForm.get('lastName')?.touched && !settingsForm.get('lastName')?.valid"
               formControlName="lastName"
               required>
           </div>
@@ -86,7 +86,7 @@
         <button
           class="btn btn-primary"
           type="submit"
-          [disabled]="!mForm.valid || invalidUserName">Submit</button>
+          [disabled]="!settingsForm.valid || invalidUserName">Submit</button>
       </form>
     </div>
   </div>

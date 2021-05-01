@@ -1,14 +1,14 @@
-import { UserFormComponent } from './../form/user.form.component';
-import { StatusResponse } from './../data/status.response';
-import { catchError } from 'rxjs/operators';
-import { UserService } from './../services/user.service';
-import { Observable, of } from 'rxjs';
+import { UserFormComponent } from '../form/user.form.component';
+import { StatusResponse } from '../data/status.response';
+import { UserService } from '../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from './../data/user';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, AbstractControl, NgForm, FormControl } from '@angular/forms';
+import { User } from '../data/user';
+import { Component, OnInit} from '@angular/core';
+import { FormBuilder} from '@angular/forms';
 
-
+/**
+ * @author Attila Barna
+ */
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -31,14 +31,13 @@ export class RegistrationComponent extends UserFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   onSubmit(): void {
-      const data = this.mForm.getRawValue();
-      if ( this.mForm.valid  ) {
+      const data = this.settingsForm.getRawValue();
+      if ( this.settingsForm.valid  ) {
           this.userService.create(data as User)
           .subscribe(
                (res: StatusResponse<any>) => ( this.dataIsSent = true, this.userIsCreatedSuccessfully = res.code === 1 )  ,
-               err => ( this.dataIsSent = true, this.userIsCreatedSuccessfully = false )
+               () => ( this.dataIsSent = true, this.userIsCreatedSuccessfully = false )
            );
       }
   }

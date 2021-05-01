@@ -1,12 +1,12 @@
-import { UserService } from './../services/user.service';
+import { UserService } from '../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 
 export class UserFormComponent  {
 
-  mForm: FormGroup = this.fb.group({
-    userName: ['', [Validators.required,this.validUserName.bind(this)]],
+  settingsForm: FormGroup = this.fb.group({
+    userName: ['', [Validators.required, this.validUserName.bind(this)]],
     userPassword: ['', Validators.required],
     userPasswordRE:  ['', [Validators.required, this.validPassword.bind(this)]],
     userMail: ['', [Validators.required, Validators.email]],
@@ -23,7 +23,7 @@ export class UserFormComponent  {
     protected userService: UserService) { }
 
   validPassword(control: FormControl): { [s: string]: boolean} | null {
-    if ( this.mForm?.get('userPassword')?.value !== control.value ) {
+    if ( this.settingsForm?.get('userPassword')?.value !== control.value ) {
       return { invalid: true};
     }
     return null;
@@ -35,7 +35,4 @@ export class UserFormComponent  {
     }
     return null;
   }
-
-
-
 }

@@ -1,13 +1,12 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-10"><h1>User name</h1></div>
-    <div class="col-sm-2"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
+    <div class="col-sm-12"><h1>User name</h1></div>
   </div>
   <div class="row">
     <div class="col-sm-3">
 
         <div class="text-center">
-          <app-image-component #profileImage [subject]="profileImageSubject" default="/assets/profile/avatar_2x.png" imgclass="avatar img-circle img-thumbnail" alt="avatar"></app-image-component>
+          <app-image-component #profileImage [subject]="profileImageSubject" default="/assets/profile/avatar_2x.png" imgclass="avatar img-circle img-thumbnail"></app-image-component>
           <h6>Upload a different photo...</h6>
           <app-input-file-component [accept]="'.jpg, .jpeg, .png'" (data)="handleFileInput($event)" ></app-input-file-component>
         </div>
@@ -24,18 +23,23 @@
         </li>
       </ul>
 
+        <div *ngIf="profileUpdated; else profileUpdateElse" class="alert alert-primary" role="alert">
+          Profile is updated successfully!
+        </div>
+        <ng-template #profileUpdateElse>
+          <div class="alert alert-danger" *ngIf="profileUpdateType == ProfilePage.SETTINGS && settingsForm.valid && profileFormValidated">
+            This email is already in use.
+          </div>
+          <div class="alert alert-danger" *ngIf="profileUpdateType == ProfilePage.PASSWORD && passwordForm.valid && profileFormValidated">
+            Invalid password.
+          </div>
+        </ng-template>
+
         <div class="tab-content">
           <div *ngIf="page === ProfilePage.SETTINGS" [class.active]="page === ProfilePage.SETTINGS" class="tab-pane" id="settings">
 
-            <div *ngIf="profileUpdated; else profileUpdateElse" class="alert alert-primary" role="alert">
-              Profile is updated successfully!
-            </div>
-            <ng-template #profileUpdateElse>
-              <ng-container *ngIf="mForm.valid && profileFormValidated">This email is already in use.</ng-container>
-            </ng-template>
 
-
-            <form [formGroup]="mForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="settingsForm" (ngSubmit)="onSubmitSettings()">
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="userMail">Email</label>
@@ -72,12 +76,35 @@
                 </div>
               </div>
 
-
-              <button [disabled]="!mForm.valid"  type="submit" class="btn btn-primary">Save</button>
+              <button [disabled]="!settingsForm.valid" type="submit" class="btn btn-primary">Save</button>
             </form>
 
            </div>
-           <div *ngIf="page === ProfilePage.PASSWORD" [class.active]="page === ProfilePage.PASSWORD" class="tab-pane" id="settings">
+           <div *ngIf="page === ProfilePage.PASSWORD" [class.active]="page === ProfilePage.PASSWORD" class="tab-pane" id="password">
+
+             <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
+
+               <div class="row">
+                 <mat-form-field appearance="fill" style="width: 100%;">
+                   <mat-label>Old password:</mat-label>
+                   <input type="password" matInput formControlName="oldPassword">
+                 </mat-form-field>
+
+                 <mat-form-field appearance="fill" style="width: 100%;">
+                   <mat-label>New password: (min length: 8 )</mat-label>
+                   <input type="password" matInput formControlName="newPassword">
+                 </mat-form-field>
+
+                 <mat-form-field appearance="fill" style="width: 100%;">
+                   <mat-label>Confirm new password:</mat-label>
+                   <input type="password" matInput formControlName="newPasswordConfirm">
+                 </mat-form-field>
+               </div>
+
+                <div class="row">
+                 <button [disabled]="!passwordForm.valid" type="submit" class="btn btn-primary">Update</button>
+                </div>
+             </form>
 
             </div>
 

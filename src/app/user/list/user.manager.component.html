@@ -7,7 +7,7 @@
     <tbody>
           <tr *appDataRow="let row; columns: dataTable.displayedHeaders">
                <td *ngFor="let column of dataTable.displayedColumns"
-                  (click)="onItemClicked(row,column,$event)"  >{{row[column]}}</td>
+                  (click)="onItemClicked(row, column, $event)"  >{{row[column]}}</td>
           </tr>
     </tbody>
   </table>

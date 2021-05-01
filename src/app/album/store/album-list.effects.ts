@@ -1,12 +1,12 @@
-import { AlbumService } from './../../services/album.service';
-import { StatusResponse } from './../../data/status.response';
+import { AlbumService } from '../../services/album.service';
+import { StatusResponse } from '../../data/status.response';
 import { selectAlbumCollection } from './album-list.reducer';
 import { Album } from '../data/album';
 import { Injectable } from '@angular/core';
 import { Actions,  ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { HttpClient } from '@angular/common/http';
-import { switchMap, map,  tap, exhaustMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map,  exhaustMap, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as AlbumActions from './album-list.actions';

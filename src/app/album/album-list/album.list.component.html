@@ -1,3 +1,4 @@
+<app-loading></app-loading>
 <div class="row" *ngIf="album">
 
 
@@ -38,19 +39,17 @@
 
         <button [disabled]="!mForm.valid"  type="submit" class="btn btn-primary">Create</button>
 
-
         </form>
 
       </div>
     </div>
   </div>
 
-
   <div class="mt-4" *ngIf="images.length > 0">
-    <ngx-masonry [options]="masonryOptions" style="width: 90vw"  (itemsLoaded)="itemsLoaded()" >
+    <ngx-masonry [options]="masonryOptions" [ordered]="true" style="width: 90vw"  (itemsLoaded)="itemsLoaded()" >
       <div ngxMasonryItem *ngFor="let item of images" style="width:200px;" class="mt-4">
         <div class="card">
-          <app-album-picture-component style="text-align: center;" [id]="item.id" default="/assets/profile/avatar_2x.png" imgclass="avatar img-circle img-thumbnail" alt="avatar"></app-album-picture-component>
+          <app-album-picture-component style="text-align: center;" [id]="item.id" default="/assets/profile/avatar_2x.png" imgclass="avatar img-circle img-thumbnail"></app-album-picture-component>
 
           <div class="card-body">
             <h5 class="card-title">{{item.name}}</h5>
@@ -59,6 +58,7 @@
         </div>
       </div>
     </ngx-masonry>
+    <button class="btn btn-primary" (click)="handleClickMore($event)">More</button>
   </div>
 
 </div>

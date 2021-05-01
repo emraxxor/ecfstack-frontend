@@ -1,14 +1,16 @@
-import { Image } from './../data/image';
-import { ImageService } from './../services/image.service';
+import { ImageService } from '../services/image.service';
 import { Album } from '../data/album';
-import { map, switchMap } from 'rxjs/operators';
+import {map, switchMap, takeUntil} from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import {FormGroup, Validators, FormBuilder, FormControl} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OnInit, Component, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import * as fromApp from '../../store/app.reducer';
 import * as AlbumActions from '../store/album-list.actions';
 import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
+import {AlbumImage} from '../data/AlbumImage';
+import {LoadingService} from '../../services/loading.service';
+import {Subject} from 'rxjs';
 
 
 /**
@@ -19,7 +21,10 @@ import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
 @Component({
   selector: 'app-album-list',
   styles: [`.masonry-item { max-width:200px; width: 200px;   transition: top 0.4s ease-in-out, left 0.4s ease-in-out;  }`],
-  templateUrl: './album.list.component.html'
+  templateUrl: './album.list.component.html',
+  providers : [
+    LoadingService
+  ],
 })
 export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
 
@@ -27,58 +32,80 @@ export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(NgxMasonryComponent) masonry!: NgxMasonryComponent;
 
-  images: Array<Image> = [];
+  images: Array<AlbumImage> = [];
 
-  mForm: FormGroup = this.fb.group({
-    imageName: ['', Validators.required],
-    imageDescription: ['', Validators.required],
+  page = 0;
+
+  mForm = new FormGroup({
+     imageName: new FormControl('', [Validators.required]),
+     imageDescription: new FormControl('', [Validators.required])
   });
+
 
   imageData: string | null = null;
 
+  readonly imageChanges: Subject<AlbumImage> = new Subject<AlbumImage>();
+
   masonryOptions: NgxMasonryOptions = {
     gutter: 20,
-    percentPosition: true,
-    fitWidth: true,
+    // percentPosition: true,
+    // fitWidth: true,
   };
+
+  private unsubscribeNotifier = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromApp.AppState>,
-    protected fb: FormBuilder,
-    private imageService: ImageService
-  ) {
-  }
+    protected formBuilder: FormBuilder,
+    private imageService: ImageService,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit(): void {
-        this.route.params
-        .pipe(
-          map(params => {
-            return +params.id;
-          }),
-          map(id => {
-              return this.store.dispatch(new AlbumActions.FetchAlbum(id));
-          }),
-          switchMap(id => {
-              return this.store.select('albumList');
-          })
-        )
-        .subscribe(albumList => {
+      this.loadingService.displayLoader(
+        this
+          .route
+          .params
+          .pipe(
+            map(params => {
+              return +params.id;
+            }),
+            map(id => {
+                return this.store.dispatch(new AlbumActions.FetchAlbum(id));
+            }),
+            switchMap(id => {
+                return this.store.select('albumList');
+            })
+          )
+      ).subscribe(albumList => {
           this.album = albumList.album;
+          this.fetchAlbum();
+      });
 
-          if ( this.album ) {
-            this.imageService.images(this.album.id, 0).subscribe(
-              res => {
-                        const images = res.object.content as Array<Image>;
-                        images.forEach(e => this.images.push(e));
-              },
-              err => console.error(err)
-            );
-          }
+      this
+          .imageChanges
+          .pipe(takeUntil(this.unsubscribeNotifier))
+          .subscribe(res => {
+            this.images.push(res);
+          });
 
-        });
+  }
 
+  private fetchAlbum(): void {
+    if ( this.album ) {
+      this
+        .loadingService
+        .displayLoader(this.imageService.images(this.album.id, this.page++))
+        .pipe(
+          map( e => e.object.content as Array<AlbumImage>)
+        )
+        .subscribe(
+          res => res.forEach( e => this.imageChanges.next(e)),
+          err => console.error(err)
+        );
+    }
   }
 
   ngAfterViewInit(): void {
@@ -90,23 +117,27 @@ export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    this.unsubscribeNotifier.next();
+    this.unsubscribeNotifier.complete();
   }
 
   onSubmit(): void {
     if ( this.mForm.valid && this.imageData != null ) {
         const { imageName, imageDescription } = this.mForm.getRawValue();
-        this.imageService.create( {
+        this.imageService
+        .create( {
           name: imageName,
           albumId: (this.album as Album).id,
           description: imageDescription,
           data: this.imageData
         }).subscribe(
-          res => console.log(res),
+          res => {
+              this.images.push(res.object);
+          },
           err => console.log(err)
         );
     }
   }
-
 
   itemsLoaded(): void {
     this.masonry.reloadItems();
@@ -117,5 +148,7 @@ export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
     this.imageData = e.data;
   }
 
-
+  handleClickMore($event: MouseEvent): void {
+      this.fetchAlbum();
+  }
 }

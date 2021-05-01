@@ -1,10 +1,8 @@
-import { StatusResponse } from './../../data/status.response';
+import { StatusResponse } from '../../data/status.response';
 import { Picture } from '../data/picture';
-import { FileData } from '../../type/file.data';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, Subscription } from 'rxjs';
-import { Injectable, OnInit } from "@angular/core";
-import { catchError, map } from 'rxjs/operators';
+import { Observable} from 'rxjs';
+import { Injectable} from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class ImageService  {
@@ -18,5 +16,4 @@ export class ImageService  {
   images(albumId: number, page: number): Observable<StatusResponse<any>> {
     return this.http.get<StatusResponse<any>>(`/api/album/${albumId}/${page}`);
   }
-
 }

@@ -1,7 +1,7 @@
 import { PlaceholderDirective } from '../component/ui/placeholder.directive';
-import { DialogComponent } from './../component/ui/dialog.component';
+import { DialogComponent } from '../component/ui/dialog.component';
 import { Router } from '@angular/router';
-import { AuthService } from './../services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -32,8 +32,12 @@ export class LoginComponent implements OnInit {
         ) { }
 
   ngOnInit(): void {
-    if ( this.authService.isLoggedIn ) {
-      this.router.navigate(['/profile']);
+    if (this.authService.isLoggedIn) {
+      this.router.navigate(['/profile']).then(r => {
+        if (!r) {
+          console.warn(`Problem is occurred during navigation.`);
+        }
+      });
     }
   }
 
@@ -50,12 +54,11 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
         try {
         const res = await this.authService.login(this.form.value);
-        this.router.navigate(['/profile']);
+        await this.router.navigate(['/profile']);
       } catch (e: any) {
         this.invalidCreds = true;
         this.showErrorAlert('Invalid username or password', 'Invalid username or password.');
       }
-
     }
   }
 
