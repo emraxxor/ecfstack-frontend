@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FileData } from '../../type/file.data';
 import { ElementRef, ViewChild } from '@angular/core';
 import { Component, OnInit, Input } from '@angular/core';
-import {map} from "rxjs/operators";
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-photo-view',

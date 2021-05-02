@@ -1,7 +1,7 @@
-import { AdminGuard } from './../guard/admin.guard';
+import { AdminGuard } from '../guard/admin.guard';
 import { UserManagerComponent } from './list/user.manager.component';
 import { UserComponent } from './user.component';
-import { AuthGuard } from './../guard/auth.guard';
+import { AuthGuard } from '../guard/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

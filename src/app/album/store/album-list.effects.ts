@@ -30,7 +30,6 @@ export class AlbumEffects {
       );
   });
 
-
   fetchAlbum$ = createEffect(() => {
     return this.actions$.pipe(
         ofType(AlbumActions.FETCH_ALBUM_BY_ID),
@@ -39,10 +38,8 @@ export class AlbumEffects {
         }),
         map(response => {
           return new AlbumActions.SetAlbum(response.object);
-        })
-  );
-});
-
+        }));
+  });
 
   storeAlbum$ = createEffect(
     () =>  this.actions$.pipe(
@@ -64,12 +61,32 @@ export class AlbumEffects {
             switchMap( (action: AlbumActions.CreateAlbum) => {
                   return this.http.post<StatusResponse<Album>>(`/api/album`, action.payload);
             }),
-            map(res => new AlbumActions.StatusAlbumCreate(res) ),
+            map(res => new AlbumActions.StatusAlbumResponse(res) ),
             catchError(error => of(new AlbumActions.ErrorAlbum(error) )  )
         )
   );
 
+  updateAlbum$ = createEffect(
+    () =>  this.actions$.pipe(
+      ofType(AlbumActions.UPDATE_ALBUM),
+      switchMap( (action: AlbumActions.UpdateAlbum) => {
+        return this.http.put<StatusResponse<Album>>(`/api/album`, action.payload);
+      }),
+      map(res => new AlbumActions.StatusAlbumResponse(res) ),
+      catchError(error => of(new AlbumActions.ErrorAlbum(error) )  )
+    )
+  );
 
+  deleteAlbum$ = createEffect(
+    () =>  this.actions$.pipe(
+      ofType(AlbumActions.DELETE_ALBUM),
+      switchMap( (action: AlbumActions.DeleteAlbum) => {
+        return this.http.delete<StatusResponse<Album>>(`/api/album/${action.payload.id}`);
+      }),
+      map(res => new AlbumActions.StatusAlbumResponse(res) ),
+      catchError(error => of(new AlbumActions.ErrorAlbum(error) )  )
+    )
+  );
 
   constructor(
     private actions$: Actions,

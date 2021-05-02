@@ -48,4 +48,11 @@ export class AlbumDataTable extends DataTable<AlbumType> {
         console.error(e);
     }
   }
+
+  public valueOfHeaderByColumn(column: string): string {
+    if ( column in this.displayedHeaders ) {
+      return (this.displayedHeaders as any)[column];
+    }
+    return '';
+  }
 }

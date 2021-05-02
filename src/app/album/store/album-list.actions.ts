@@ -13,11 +13,18 @@ export const DELETE_ALBUM = '[Albums] DELETE_ALBUM';
 export const STORE_ALBUM = '[Albums] STORE_ALBUM';
 export const CREATE_ALBUM = '[Albums] CREATE_ALBUM';
 export const ERROR_ALBUM = '[Albums] ERROR_ALBUM';
-export const STATUS_ALBUM_CREATE = '[Albums] STATUS ALBUM CREATE';
+export const STATUS_ALBUM_RESPONSE = '[Albums] STATUS ALBUM CREATE';
+export const RESET_ALBUM_LIST = '[Albums] RESET_ALBUM';
+export const RESET_ALBUM_HTTP_RESPONSE = '[Albums] RESET_ALBUM_HTTP_RESPONSE';
 
 export class SetAlbums implements Action {
   readonly type = SET_ALBUMS;
   constructor(public payload: Album[]) {}
+}
+
+export class ResetAlbumList implements Action {
+  readonly type = RESET_ALBUM_LIST;
+  constructor() {}
 }
 
 export class SetAlbum implements Action {
@@ -64,8 +71,8 @@ export class ErrorAlbum implements Action {
   constructor(public payload: any) {}
 }
 
-export class StatusAlbumCreate implements Action {
-  readonly type = STATUS_ALBUM_CREATE;
+export class StatusAlbumResponse implements Action {
+  readonly type = STATUS_ALBUM_RESPONSE;
   constructor(public response: StatusResponse<Album>) {}
 }
 
@@ -83,6 +90,7 @@ export type AlbumListActions =
   | StoreAlbum
   | CreateAlbum
   | ErrorAlbum
-  | StatusAlbumCreate
+  | StatusAlbumResponse
   | SetAlbum
+  | ResetAlbumList
   ;

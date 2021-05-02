@@ -1,6 +1,6 @@
 import { ImageService } from '../services/image.service';
 import { Album } from '../data/album';
-import {map, switchMap, takeUntil} from 'rxjs/operators';
+import {map, switchMap, takeUntil, withLatestFrom} from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {FormGroup, Validators, FormBuilder, FormControl} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +10,7 @@ import * as AlbumActions from '../store/album-list.actions';
 import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
 import {AlbumImage} from '../data/AlbumImage';
 import {LoadingService} from '../../services/loading.service';
-import {Subject} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 
 
 /**
@@ -29,10 +29,11 @@ import {Subject} from 'rxjs';
 export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
 
   album!: Album | null;
+  albumId!: number;
 
   @ViewChild(NgxMasonryComponent) masonry!: NgxMasonryComponent;
 
-  images: Array<AlbumImage> = [];
+  images = new Array<AlbumImage>();
 
   page = 0;
 
@@ -44,7 +45,7 @@ export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
 
   imageData: string | null = null;
 
-  readonly imageChanges: Subject<AlbumImage> = new Subject<AlbumImage>();
+  readonly imageChanges = new Subject<AlbumImage>();
 
   masonryOptions: NgxMasonryOptions = {
     gutter: 20,
@@ -64,27 +65,32 @@ export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-      this.loadingService.displayLoader(
-        this
+    this
           .route
           .params
           .pipe(
             map(params => {
-              return +params.id;
+              return params.id;
             }),
             map(id => {
+                this.albumId = id;
                 return this.store.dispatch(new AlbumActions.FetchAlbum(id));
             }),
             switchMap(id => {
-                return this.store.select('albumList');
-            })
+                return this.store;
+            }),
+            withLatestFrom(e => e.albumList),
+            takeUntil(this.unsubscribeNotifier)
           )
-      ).subscribe(albumList => {
-          this.album = albumList.album;
-          this.fetchAlbum();
-      });
+          .subscribe(albumList => {
+            if ( albumList.album && Number(this.albumId as number) === Number(albumList.album.id) ) {
+              this.album = albumList.album;
+              this.fetchAlbum();
+            }
+            this.loadingService.endLoad();
+          });
 
-      this
+    this
           .imageChanges
           .pipe(takeUntil(this.unsubscribeNotifier))
           .subscribe(res => {
@@ -99,6 +105,7 @@ export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
         .loadingService
         .displayLoader(this.imageService.images(this.album.id, this.page++))
         .pipe(
+          takeUntil(this.unsubscribeNotifier),
           map( e => e.object.content as Array<AlbumImage>)
         )
         .subscribe(
@@ -117,6 +124,7 @@ export class AlbumListComponent  implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new AlbumActions.ResetAlbumList());
     this.unsubscribeNotifier.next();
     this.unsubscribeNotifier.complete();
   }

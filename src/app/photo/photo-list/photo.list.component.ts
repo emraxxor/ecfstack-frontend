@@ -3,11 +3,12 @@ import {LoadingService} from '../../services/loading.service';
 import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 import {Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {map, takeUntil} from 'rxjs/operators';
+import {map, takeUntil, tap} from 'rxjs/operators';
 import {PhotoService} from '../services/photo.service';
 import {PhotoElement} from '../data/photo.element';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {PhotoDialogWindowComponent} from "./photo.dialog.window.component";
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {PhotoDialogWindowComponent} from './photo.dialog.window.component';
+import {ScrollResponse} from '../../data/scroll.response';
 
 /**
  * PhotoListComponent is suitable for displaying pictures .
@@ -39,6 +40,7 @@ export class PhotoListComponent  implements OnInit, OnDestroy, AfterViewInit {
   };
 
   private unsubscribeNotifier = new Subject<void>();
+  private data: ScrollResponse<PhotoElement> | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,9 +61,15 @@ export class PhotoListComponent  implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private fetchData(): void {
-     this.photoService.images(this.token).pipe(
-          map( e => e.data )
-     ).subscribe( res => res.forEach( e => this.imageChanges.next(e) ));
+    this.photoService
+      .images(this.token)
+      .subscribe( res => {
+        if ( res.token !== this.token ) {
+          res.data.forEach(e => this.imageChanges.next(e));
+          this.token = res.token;
+          this.data = res;
+        }
+      });
   }
 
   handleClickMore($event: MouseEvent): void {

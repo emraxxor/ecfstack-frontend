@@ -19,6 +19,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
+import {AlertDialogComponent} from "./ui/dialog/alert.dialog.component";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {MatButtonModule} from '@angular/material/button';
     LoadingComponent,
     AlbumImageComponent,
     PhotoDialogWindowComponent,
+    AlertDialogComponent,
   ],
   imports: [
     NgbModule,
@@ -59,7 +61,8 @@ import {MatButtonModule} from '@angular/material/button';
     NgxMasonryModule,
     LoadingComponent,
     AlbumImageComponent,
-    PhotoDialogWindowComponent
+    PhotoDialogWindowComponent,
+    AlertDialogComponent
   ],
   entryComponents: [],
   providers: []

@@ -33,6 +33,10 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
+    path: 'home',
+    component: LoginComponent,
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },

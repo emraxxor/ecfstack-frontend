@@ -14,9 +14,7 @@ export class LoadingComponent implements OnInit {
 
   constructor(
     public loadingService: LoadingService
-  ) {
-    loadingService.loading.subscribe(r => console.log(`Loading:${r}`));
-  }
+  ) {}
 
   ngOnInit(): void {
   }

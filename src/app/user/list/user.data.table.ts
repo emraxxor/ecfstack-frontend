@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { DataTable } from '../../component/table/data.table';
 import { PageEvent } from 'src/app/component/table/event/page.event';
 
+/**
+ * @author Attila Barna
+ */
 export class UserDataTable extends DataTable<User> {
 
   displayedColumns = ['userId', 'userName', 'userMail', 'firstName', 'lastName'];

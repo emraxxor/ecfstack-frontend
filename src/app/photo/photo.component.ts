@@ -11,7 +11,6 @@ import { Component, OnInit } from '@angular/core';
 export class PhotoComponent implements OnInit {
 
   constructor() {
-    console.log('PHOTO COMPONENT!');
   }
 
   ngOnInit(): void {

@@ -49,12 +49,11 @@ export class LoginComponent implements OnInit {
     return this.form.get('password') as AbstractControl;
   }
 
-
   async login(): Promise<void> {
     if (this.form.valid) {
         try {
-        const res = await this.authService.login(this.form.value);
-        await this.router.navigate(['/profile']);
+          await this.authService.login(this.form.value);
+          await this.router.navigate(['/profile']);
       } catch (e: any) {
         this.invalidCreds = true;
         this.showErrorAlert('Invalid username or password', 'Invalid username or password.');

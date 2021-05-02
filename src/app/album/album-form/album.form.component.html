@@ -1,5 +1,5 @@
+<app-loading></app-loading>
 <div class="row">
-
 
   <div class="col-sm-12">
     <h1>Album form</h1>
@@ -15,8 +15,9 @@
           <h5 class="card-title">Create a new album</h5>
 
 
-          <app-dialog-component *ngIf="error" title="Error" [body]="error.message"></app-dialog-component>
-          <app-dialog-component *ngIf="response" title="Album is created successfully" body="Album is created successfully"></app-dialog-component>
+          <!-- app-dialog-component *ngIf="error" title="Error" [body]="error.message"></app-dialog-component>
+          <app-dialog-component *ngIf="response" title="Album is created successfully" body="Album is created successfully"></app-dialog-component -->
+
           <form [formGroup]="mForm" (ngSubmit)="onSubmit($event)">
             <div class="row">
                 <div class="col-sm-6">
@@ -31,13 +32,15 @@
                 </div>
                 <div class="col-sm-6">
                   <label for="albumType">Album type:</label>
-                  <input
+                  <select
                     id="albumType"
-                    type="text"
                     class="form-control"
                     [class.is-invalid]="mForm.get('albumType')?.touched && !mForm.get('albumType')?.valid"
                     formControlName="albumType"
-                    required />
+                    required>
+                      <option value="PUBLIC">Public</option>
+                      <option value="PRIVATE">Private</option>
+                  </select>
                 </div>
             </div>
             <div class="row">
