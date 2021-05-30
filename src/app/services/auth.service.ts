@@ -70,7 +70,7 @@ export class AuthService {
 
 
   get token(): string {
-    if (!this.currentToken) {
+    if (!this.currentToken && this.authStorageService.token ) {
       this.currentToken = this.authStorageService.token();
     }
 
@@ -98,7 +98,7 @@ export class AuthService {
   logout(): void {
     sessionStorage.removeItem(DefaultConfiguration.TOKEN_STORAGE_KEY);
     sessionStorage.removeItem(DefaultConfiguration.USER_STORAGE_KEY);
-    document.cookie = `${DefaultConfiguration.TOKEN_STORAGE_KEY}=${''}`;
+    document.cookie = `${DefaultConfiguration.TOKEN_STORAGE_KEY}=`;
     document.cookie = `${DefaultConfiguration.USER_STORAGE_KEY}=${JSON.stringify({})}`;
     this.currentUser = null as any;
     this.currentToken = null as any;

@@ -1,0 +1,21 @@
+image: node:16
+
+build:
+  stage: build
+  tags:
+    - build
+  only:
+    - develop
+    - master
+  script:
+    - npm run build
+
+test:
+  stage: test
+  tags:
+    - test
+  only:
+    - develop
+    - master
+  script:
+    - npm run test

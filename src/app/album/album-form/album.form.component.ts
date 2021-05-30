@@ -1,7 +1,7 @@
 import {StatusCode, StatusResponse} from '../../data/status.response';
 import { Album } from '../data/album';
 import {map, switchMap, takeUntil, withLatestFrom} from 'rxjs/operators';
-import {Subject, Subscription} from 'rxjs';
+import {Subject} from 'rxjs';
 import { Store } from '@ngrx/store';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -11,8 +11,6 @@ import * as AlbumActions from '../store/album-list.actions';
 import {LoadingService} from '../../services/loading.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AlertDialogComponent} from '../../shared/ui/dialog/alert.dialog.component';
-import {selectAlbumHttpResponse} from "../store/album-list.reducer";
-import {AlbumService} from "../../services/album.service";
 
 export enum FormType {
    CREATE,
