@@ -8,6 +8,7 @@ build:
     - develop
     - master
   script:
+    - npm i
     - npm run build
 
 test:
@@ -18,4 +19,5 @@ test:
     - develop
     - master
   script:
+    - npm i
     - npm run test
